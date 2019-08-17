@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace HelloAspNetCore.Controllers
 {
@@ -6,10 +7,17 @@ namespace HelloAspNetCore.Controllers
     [ApiController]
     public class HelloController : ControllerBase
     {
+        private readonly IOptions<MyOptions> _options;
+
+        public HelloController(IOptions<MyOptions> options)
+        {
+            _options = options;
+        }
+        
         [HttpGet]
         public ActionResult<string> Get()
         {
-            return "Hello World";
+            return _options.Value.MyValue;
         }
     }
 }
